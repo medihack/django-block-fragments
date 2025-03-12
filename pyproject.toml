@@ -1,0 +1,48 @@
+[project]
+name = "django-block-fragments"
+authors = [{ name = "Kai Schlamp", email = "kai.schlamp@gmail.com" }]
+description = "Reusable block fragments for the Django Template Language."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["django>=5.0.0"]
+dynamic = ["version"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "pytest-django>=4.10.0",
+    "ruff>=0.9.10",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+lint.select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+pythonpath = ["."]
+testpaths = ["tests"]
+python_files = ["tests.py"]
+
+[tool.coverage.run]
+branch = true
+source = ["src/block_fragments"]
+
+[tool.coverage.report]
+skip_empty = true
+show_missing = true
+
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/block_fragments"]
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+pattern = "default-unprefixed"
