@@ -3,7 +3,7 @@ name = "django-block-fragments"
 authors = [{ name = "Kai Schlamp", email = "kai.schlamp@gmail.com" }]
 description = "Reusable block fragments for the Django Template Language."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = ["django>=5.0.0"]
 dynamic = ["version"]
 
