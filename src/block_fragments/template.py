@@ -22,6 +22,8 @@ class TemplateProxy(Template):
         self.source = template.source
 
     def render(self, context):
+        "Display stage -- can be called many times"
+
         # Make a copy of the context and reset the rendering state.
         # Trying to re-use a RenderContext in multiple renders can
         # lead to TemplateNotFound errors, as Django will skip past
@@ -30,16 +32,20 @@ class TemplateProxy(Template):
         context_instance = copy(context)
         context_instance.render_context = RenderContext()
 
-        # Bind the template to the context.
-        with context_instance.render_context.push_state(self.template):
-            with context_instance.bind_template(self.template):
-                context.template_name = self.name
+        with context_instance.render_context.push_state(self):
+            if context_instance.template is None:
+                with context_instance.bind_template(self):
+                    context.template_name = self.name
+                    return self._render(context_instance)
+            else:
+                return self._render(context_instance)
 
-                # Before trying to render the template, we need to traverse the tree of
-                # parent templates and find all blocks in them.
-                self._build_block_context(self.template, context_instance)
+    def _render(self, context):
+        # Before trying to render the template, we need to traverse the tree of
+        # parent templates and find all blocks in them.
+        self._build_block_context(self.template, context)
 
-                return self._render_template_block(context_instance)
+        return self._render_template_block(context)
 
     def _build_block_context(self, template: Template, context: Context) -> None:
         """

@@ -165,8 +165,26 @@ def test_context_autoescape_off(engine):
     template.backend.engine.autoescape = autoescape
 
 
-def test_request_context(engine, settings, rf):
+def test_request_context(engine, rf):
     """Test that a request context data are properly rendered in a template."""
     request = rf.get("/dummy-url")
     template = engine.get_template("test_request_context.html#block1")
     assert template.render({"request": request}) == "/dummy-url"
+
+
+def test_include_fragment(engine):
+    """Test that an include tag works with block fragments."""
+    template = engine.get_template("test7.html")
+    assert template.render() == "block2 from test1"
+
+
+def test_multiple_include_fragment(engine):
+    """Test multiple include tags that use block fragments."""
+    template = engine.get_template("test8.html")
+    assert template.render() == "block1 from test1\nblock1 from test2\n"
+
+
+def test_include_fragment_in_block(engine):
+    """Test a block that does include a fragment."""
+    template = engine.get_template("test9.html#block1")
+    assert template.render() == "\nblock2 from test1\nblock1 from test9\n"
