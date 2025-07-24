@@ -153,7 +153,7 @@ This project is heavily inspired and uses code from [django-template-partials](h
 
 __Why django-block-fragments when django-template-partials and django-render-block already exist?__
 
-I was looking for a way to reuse the already existing `block` tags of the Django Template Language (like `django-render-block` does) but also wanted to have the convenience of using template loaders (like `django-template-partials` does). So `django-block-fragments` tries to combine features of both of these great projects.
+I was looking for a way to reuse the already existing `block` tags of the Django Template Language (like `django-render-block` does) but also wanted to have the convenience of using template loaders (like `django-template-partials` does). So `django-block-fragments` combines features of both of these great projects.
 
 __How to use `django-block-fragments` with `django-cotton`?__
 
